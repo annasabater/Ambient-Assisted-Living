@@ -14,6 +14,7 @@ final class AuthService: ObservableObject {
     @Published private(set) var currentUser: AppUser?
     @Published private(set) var firebaseUser: User?
     @Published private(set) var isLoading: Bool = false
+    @Published private(set) var isInitializing: Bool = true
 
     private let auth: Auth
     private let usersCollection: CollectionReference
@@ -35,15 +36,15 @@ final class AuthService: ObservableObject {
 
     // MARK: - Public API
 
-    func login(email: String, password: String) async throws {
+    func signIn(email: String, password: String) async throws {
         isLoading = true
         defer { isLoading = false }
         do {
             let result = try await auth.signIn(withEmail: email, password: password)
-            logger.info("login ok uid=\(result.user.uid, privacy: .public)")
+            logger.info("signIn ok uid=\(result.user.uid, privacy: .public)")
             await loadOrCreateProfile(for: result.user)
         } catch {
-            logger.error("login failed: \(error.localizedDescription, privacy: .public)")
+            logger.error("signIn failed: \(error.localizedDescription, privacy: .public)")
             throw AppError.map(error)
         }
     }
@@ -57,6 +58,18 @@ final class AuthService: ObservableObject {
             await loadOrCreateProfile(for: result.user)
         } catch {
             logger.error("register failed: \(error.localizedDescription, privacy: .public)")
+            throw AppError.map(error)
+        }
+    }
+
+    func sendPasswordReset(email: String) async throws {
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            try await auth.sendPasswordReset(withEmail: email)
+            logger.info("password reset email sent")
+        } catch {
+            logger.error("password reset failed: \(error.localizedDescription, privacy: .public)")
             throw AppError.map(error)
         }
     }
@@ -83,6 +96,9 @@ final class AuthService: ObservableObject {
                     await self.loadOrCreateProfile(for: user)
                 } else {
                     self.currentUser = nil
+                }
+                if self.isInitializing {
+                    self.isInitializing = false
                 }
             }
         }
