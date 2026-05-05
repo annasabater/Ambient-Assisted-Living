@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		236243102FA9BD2E00495CB6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2362430F2FA9BD2E00495CB6 /* FirebaseAuth */; };
+		236243122FA9BD2E00495CB6 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 236243112FA9BD2E00495CB6 /* FirebaseCore */; };
+		236243142FA9BD2E00495CB6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 236243132FA9BD2E00495CB6 /* FirebaseFirestore */; };
+		236243162FA9BD2E00495CB6 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 236243152FA9BD2E00495CB6 /* FirebaseMessaging */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		236242C22FA9B6F300495CB6 /* Ambient Assisted Living.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ambient Assisted Living.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +43,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				236243162FA9BD2E00495CB6 /* FirebaseMessaging in Frameworks */,
+				236243122FA9BD2E00495CB6 /* FirebaseCore in Frameworks */,
+				236243102FA9BD2E00495CB6 /* FirebaseAuth in Frameworks */,
+				236243142FA9BD2E00495CB6 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +89,10 @@
 			);
 			name = "Ambient Assisted Living";
 			packageProductDependencies = (
+				2362430F2FA9BD2E00495CB6 /* FirebaseAuth */,
+				236243112FA9BD2E00495CB6 /* FirebaseCore */,
+				236243132FA9BD2E00495CB6 /* FirebaseFirestore */,
+				236243152FA9BD2E00495CB6 /* FirebaseMessaging */,
 			);
 			productName = "Ambient Assisted Living";
 			productReference = 236242C22FA9B6F300495CB6 /* Ambient Assisted Living.app */;
@@ -107,6 +122,9 @@
 			);
 			mainGroup = 236242B92FA9B6F300495CB6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2362430E2FA9BD2E00495CB6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 236242C32FA9B6F300495CB6 /* Products */;
 			projectDirPath = "";
@@ -337,6 +355,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2362430E2FA9BD2E00495CB6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.12.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2362430F2FA9BD2E00495CB6 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2362430E2FA9BD2E00495CB6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		236243112FA9BD2E00495CB6 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2362430E2FA9BD2E00495CB6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		236243132FA9BD2E00495CB6 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2362430E2FA9BD2E00495CB6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		236243152FA9BD2E00495CB6 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2362430E2FA9BD2E00495CB6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 236242BA2FA9B6F300495CB6 /* Project object */;
 }
