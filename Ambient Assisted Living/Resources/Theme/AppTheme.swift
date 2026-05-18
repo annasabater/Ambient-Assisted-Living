@@ -19,16 +19,26 @@ enum AppTheme {
 
 enum Spacing {
     static let xs: CGFloat = 4
-    static let s: CGFloat = 8
-    static let m: CGFloat = 16
-    static let l: CGFloat = 24
-    static let xl: CGFloat = 32
-    static let xxl: CGFloat = 48
+    static let s: CGFloat = 6
+    static let m: CGFloat = 12
+    static let l: CGFloat = 18
+    static let xl: CGFloat = 24
+    static let xxl: CGFloat = 36
 }
 
 enum Radius {
-    static let s: CGFloat = 8
-    static let m: CGFloat = 12
-    static let l: CGFloat = 16
-    static let xl: CGFloat = 24
+    static let s: CGFloat = 6
+    static let m: CGFloat = 10
+    static let l: CGFloat = 14
+    static let xl: CGFloat = 20
+}
+
+enum Typography {
+    static let displayTitle = Font.system(size: 26, weight: .bold)
+    static let title = Font.system(size: 20, weight: .semibold)
+    static let headline = Font.system(size: 16, weight: .semibold)
+    static let body = Font.system(size: 15, weight: .regular)
+    static let callout = Font.system(size: 14, weight: .regular)
+    static let footnote = Font.system(size: 12, weight: .regular)
+    static let caption = Font.system(size: 11, weight: .regular)
 }

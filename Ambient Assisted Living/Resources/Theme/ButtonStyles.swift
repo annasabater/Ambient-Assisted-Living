@@ -8,10 +8,10 @@ import SwiftUI
 struct PrimaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.body.weight(.semibold))
+            .font(Typography.body.weight(.semibold))
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
+            .padding(.vertical, 12)
             .padding(.horizontal, 20)
             .background(AppTheme.primary)
             .clipShape(RoundedRectangle(cornerRadius: Radius.m, style: .continuous))
@@ -22,9 +22,9 @@ struct PrimaryButtonStyle: ButtonStyle {
 struct SecondaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.body.weight(.medium))
+            .font(Typography.callout.weight(.medium))
             .foregroundStyle(AppTheme.primary)
-            .padding(.vertical, 14)
+            .padding(.vertical, 10)
             .opacity(configuration.isPressed ? 0.6 : 1.0)
     }
 }
@@ -32,10 +32,10 @@ struct SecondaryButtonStyle: ButtonStyle {
 struct DestructiveButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.body.weight(.semibold))
+            .font(Typography.body.weight(.semibold))
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
+            .padding(.vertical, 12)
             .padding(.horizontal, 20)
             .background(AppTheme.danger)
             .clipShape(RoundedRectangle(cornerRadius: Radius.m, style: .continuous))

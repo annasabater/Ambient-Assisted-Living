@@ -8,9 +8,9 @@ import SwiftUI
 private struct BrandFieldModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.body)
+            .font(Typography.body)
             .padding(.horizontal, Spacing.m)
-            .padding(.vertical, 14)
+            .padding(.vertical, 11)
             .background(AppTheme.surface)
             .clipShape(RoundedRectangle(cornerRadius: Radius.m, style: .continuous))
     }

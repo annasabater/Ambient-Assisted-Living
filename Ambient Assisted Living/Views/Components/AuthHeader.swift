@@ -11,21 +11,20 @@ struct AuthHeader: View {
     let subtitle: String
 
     var body: some View {
-        VStack(spacing: Spacing.m) {
+        VStack(spacing: Spacing.s) {
             Image(systemName: icon)
-                .font(.system(size: 64))
+                .font(.system(size: 44))
                 .foregroundStyle(AppTheme.primary)
-                .padding(.bottom, Spacing.s)
+                .padding(.bottom, Spacing.xs)
             Text(title)
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(Typography.displayTitle)
                 .multilineTextAlignment(.center)
             Text(subtitle)
-                .font(.body)
+                .font(Typography.callout)
                 .foregroundStyle(AppTheme.textSecondary)
                 .multilineTextAlignment(.center)
         }
-        .padding(.vertical, Spacing.xl)
+        .padding(.vertical, Spacing.l)
         .frame(maxWidth: .infinity)
     }
 }
