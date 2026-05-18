@@ -1,13 +1,12 @@
 //
-//  ContentView.swift
+//  DashboardView.swift
 //  Ambient Assisted Living
 //
 
 import SwiftUI
 
-struct ContentView: View {
+struct DashboardView: View {
     @EnvironmentObject private var authService: AuthService
-
     @State private var errorMessage: String?
 
     private var greetingName: String {
@@ -19,17 +18,18 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 24) {
-            Spacer()
-            Image(systemName: "person.crop.circle.fill")
-                .font(.system(size: 72))
-                .foregroundStyle(.tint)
             Text("Hola, \(greetingName)")
                 .font(.title2.bold())
                 .multilineTextAlignment(.center)
-            Text("Sesión iniciada correctamente.")
+
+            Text("Aquí verás el resumen del estado de la persona monitorizada")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+
             Spacer()
+
             Button(role: .destructive, action: signOut) {
                 Text("Cerrar sesión")
                     .frame(maxWidth: .infinity)
@@ -38,7 +38,7 @@ struct ContentView: View {
             .padding(.horizontal)
         }
         .padding()
-        .background(Color(.systemBackground))
+        .navigationTitle("Inicio")
         .alert(
             "No se pudo cerrar sesión",
             isPresented: Binding(
@@ -65,6 +65,8 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
-        .environmentObject(AuthService())
+    NavigationStack {
+        DashboardView()
+            .environmentObject(AuthService())
+    }
 }

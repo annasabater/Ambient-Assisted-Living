@@ -13,7 +13,7 @@ struct RootView: View {
             if authService.isInitializing {
                 splash
             } else if authService.currentUser != nil {
-                ContentView()
+                MainTabView()
             } else {
                 NavigationStack {
                     LoginView()
