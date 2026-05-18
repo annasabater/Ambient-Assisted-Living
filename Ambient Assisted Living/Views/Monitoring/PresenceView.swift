@@ -8,9 +8,9 @@ import SwiftUI
 struct PresenceView: View {
     var body: some View {
         ContentUnavailableView(
-            "Próximamente",
-            systemImage: "figure.walk",
-            description: Text("La actividad y presencia estará disponible en una próxima versión.")
+            "Sin datos de actividad",
+            systemImage: "figure.walk.motion",
+            description: Text("Empareja un sensor PIR para detectar movimiento en las distintas estancias.")
         )
         .navigationTitle("Actividad y presencia")
     }

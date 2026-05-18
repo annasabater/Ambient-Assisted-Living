@@ -46,6 +46,7 @@ struct MainTabView: View {
                 Label("Ajustes", systemImage: "gearshape.fill")
             }
         }
+        .tint(AppTheme.primary)
     }
 }
 

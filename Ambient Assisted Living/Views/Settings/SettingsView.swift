@@ -11,7 +11,7 @@ struct SettingsView: View {
 
     private var displayName: String {
         let name = authService.currentUser?.displayName ?? ""
-        return name.isEmpty ? "Sin nombre" : name
+        return name.isEmpty ? "Usuario" : name
     }
 
     private var email: String {
@@ -19,44 +19,88 @@ struct SettingsView: View {
     }
 
     private var appVersion: String {
-        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
-        let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "—"
-        return "\(version) (\(build))"
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    }
+
+    private var buildNumber: String {
+        Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
     }
 
     var body: some View {
         Form {
-            Section("Perfil") {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(displayName)
-                        .font(.body)
-                    Text(email)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+            Section {
+                HStack(spacing: Spacing.m) {
+                    ZStack {
+                        Circle()
+                            .fill(AppTheme.primaryLight)
+                            .frame(width: 60, height: 60)
+                        Image(systemName: "person.fill")
+                            .foregroundStyle(AppTheme.primary)
+                            .font(.system(size: 24))
+                    }
+                    VStack(alignment: .leading, spacing: Spacing.xs) {
+                        Text(displayName)
+                            .font(.body)
+                            .fontWeight(.semibold)
+                        Text(email)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
                 }
-                .padding(.vertical, 2)
+                .padding(.vertical, Spacing.s)
+            }
+
+            Section("Persona monitorizada") {
+                NavigationLink {
+                    EmptyView()
+                } label: {
+                    Label("Gestionar perfil", systemImage: "person.crop.circle")
+                }
+                NavigationLink {
+                    EmptyView()
+                } label: {
+                    Label("Contactos de emergencia", systemImage: "phone.fill")
+                }
             }
 
             Section("Dispositivos") {
-                Text("Gestionar dispositivos")
+                NavigationLink {
+                    EmptyView()
+                } label: {
+                    Label("Mis dispositivos", systemImage: "wifi.router")
+                }
+                NavigationLink {
+                    EmptyView()
+                } label: {
+                    Label("Añadir nuevo dispositivo", systemImage: "plus.circle.fill")
+                }
             }
 
             Section("Notificaciones") {
-                Text("Preferencias")
-            }
-
-            Section("Contactos de emergencia") {
-                Text("Gestionar contactos")
+                NavigationLink {
+                    EmptyView()
+                } label: {
+                    Label("Preferencias de alertas", systemImage: "bell.badge")
+                }
             }
 
             Section("Cuenta") {
-                Button(role: .destructive, action: signOut) {
-                    Text("Cerrar sesión")
+                NavigationLink {
+                    EmptyView()
+                } label: {
+                    Label("Editar perfil", systemImage: "pencil")
+                }
+                Button(role: .destructive) {
+                    signOut()
+                } label: {
+                    Label("Cerrar sesión", systemImage: "rectangle.portrait.and.arrow.right")
                 }
             }
 
             Section("Acerca de") {
                 LabeledContent("Versión", value: appVersion)
+                LabeledContent("Build", value: buildNumber)
             }
         }
         .navigationTitle("Ajustes")

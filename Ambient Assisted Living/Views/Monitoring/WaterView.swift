@@ -8,9 +8,9 @@ import SwiftUI
 struct WaterView: View {
     var body: some View {
         ContentUnavailableView(
-            "Próximamente",
-            systemImage: "drop.fill",
-            description: Text("El seguimiento del consumo de agua estará disponible en una próxima versión.")
+            "Sin datos de consumo",
+            systemImage: "drop.degreesign",
+            description: Text("Empareja un sensor de agua para empezar a medir el consumo diario.")
         )
         .navigationTitle("Consumo de agua")
     }
