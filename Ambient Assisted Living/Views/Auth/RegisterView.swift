@@ -40,15 +40,15 @@ struct RegisterView: View {
             AppTheme.background.ignoresSafeArea()
 
             ScrollView {
-                VStack(spacing: Spacing.l) {
+                VStack(spacing: Spacing.m) {
                     AuthHeader(
                         icon: "person.crop.circle.badge.plus",
                         title: "Crear cuenta",
                         subtitle: "Empieza a cuidar a tu ser querido"
                     )
 
-                    VStack(spacing: Spacing.m) {
-                        VStack(alignment: .leading, spacing: Spacing.xs) {
+                    VStack(spacing: Spacing.s) {
+                        VStack(alignment: .leading, spacing: 0) {
                             TextField("Nombre", text: $displayName)
                                 .brandField()
                                 .textContentType(.name)
@@ -57,7 +57,7 @@ struct RegisterView: View {
                             }
                         }
 
-                        VStack(alignment: .leading, spacing: Spacing.xs) {
+                        VStack(alignment: .leading, spacing: 0) {
                             TextField("Email", text: $email)
                                 .brandField()
                                 .keyboardType(.emailAddress)
@@ -74,7 +74,7 @@ struct RegisterView: View {
                             .keyboardType(.phonePad)
                             .textContentType(.telephoneNumber)
 
-                        VStack(alignment: .leading, spacing: Spacing.xs) {
+                        VStack(alignment: .leading, spacing: 0) {
                             SecureField("Contraseña", text: $password)
                                 .brandField()
                                 .textContentType(.newPassword)
@@ -83,7 +83,7 @@ struct RegisterView: View {
                             }
                         }
 
-                        VStack(alignment: .leading, spacing: Spacing.xs) {
+                        VStack(alignment: .leading, spacing: 0) {
                             SecureField("Confirmar contraseña", text: $confirmPassword)
                                 .brandField()
                                 .textContentType(.newPassword)
@@ -103,7 +103,7 @@ struct RegisterView: View {
                     .buttonStyle(PrimaryButtonStyle())
                     .disabled(!canSubmit)
 
-                    Spacer(minLength: Spacing.xl)
+                    Spacer(minLength: Spacing.l)
 
                     HStack(spacing: 4) {
                         Text("¿Ya tienes cuenta?")
@@ -112,11 +112,11 @@ struct RegisterView: View {
                             .foregroundStyle(AppTheme.primary)
                             .fontWeight(.semibold)
                     }
-                    .font(.footnote)
-                    .padding(.bottom, Spacing.m)
+                    .font(Typography.callout)
+                    .padding(.bottom, Spacing.s)
                 }
                 .padding(.horizontal, Spacing.l)
-                .padding(.top, Spacing.l)
+                .padding(.top, Spacing.m)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -136,9 +136,10 @@ struct RegisterView: View {
 
     private func inlineHint(_ text: String) -> some View {
         Text(text)
-            .font(.footnote)
+            .font(Typography.caption)
             .foregroundStyle(AppTheme.danger)
-            .padding(.leading, Spacing.m)
+            .padding(.leading, Spacing.s)
+            .padding(.top, -Spacing.xs)
     }
 
     private func submit() {

@@ -23,7 +23,7 @@ struct ForgotPasswordView: View {
             AppTheme.background.ignoresSafeArea()
 
             ScrollView {
-                VStack(spacing: Spacing.l) {
+                VStack(spacing: Spacing.m) {
                     AuthHeader(
                         icon: "key.fill",
                         title: "Recuperar contraseña",
@@ -39,7 +39,7 @@ struct ForgotPasswordView: View {
                     }
                 }
                 .padding(.horizontal, Spacing.l)
-                .padding(.top, Spacing.l)
+                .padding(.top, Spacing.m)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -58,7 +58,7 @@ struct ForgotPasswordView: View {
     }
 
     private var formView: some View {
-        VStack(spacing: Spacing.l) {
+        VStack(spacing: Spacing.m) {
             TextField("Email", text: $email)
                 .brandField()
                 .keyboardType(.emailAddress)
@@ -81,18 +81,17 @@ struct ForgotPasswordView: View {
     private var successView: some View {
         VStack(spacing: Spacing.m) {
             Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 56))
+                .font(.system(size: 44))
                 .foregroundStyle(AppTheme.success)
             Text("Email enviado")
-                .font(.title2)
-                .fontWeight(.semibold)
+                .font(Typography.title)
             Text("Revisa tu bandeja de entrada y sigue las instrucciones")
-                .font(.body)
+                .font(Typography.callout)
                 .foregroundStyle(AppTheme.textSecondary)
                 .multilineTextAlignment(.center)
             Button("Volver al inicio") { dismiss() }
                 .buttonStyle(SecondaryButtonStyle())
-                .padding(.top, Spacing.m)
+                .padding(.top, Spacing.s)
         }
         .padding(.horizontal, Spacing.l)
     }

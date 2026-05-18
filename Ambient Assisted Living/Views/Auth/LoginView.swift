@@ -22,14 +22,14 @@ struct LoginView: View {
             AppTheme.background.ignoresSafeArea()
 
             ScrollView {
-                VStack(spacing: Spacing.l) {
+                VStack(spacing: Spacing.m) {
                     AuthHeader(
                         icon: "figure.2.and.child.holdinghands",
                         title: "Ambient Assisted Living",
                         subtitle: "Cuida a quienes más quieres"
                     )
 
-                    VStack(spacing: Spacing.m) {
+                    VStack(spacing: Spacing.s) {
                         TextField("Email", text: $email)
                             .brandField()
                             .keyboardType(.emailAddress)
@@ -51,15 +51,14 @@ struct LoginView: View {
                     .buttonStyle(PrimaryButtonStyle())
                     .disabled(!canSubmit)
 
-                    NavigationLink {
+                    NavigationLink("¿Olvidaste tu contraseña?") {
                         ForgotPasswordView()
-                    } label: {
-                        Text("¿Olvidaste tu contraseña?")
                     }
-                    .buttonStyle(SecondaryButtonStyle())
-                    .font(.footnote)
+                    .font(Typography.callout)
+                    .foregroundStyle(AppTheme.primary)
+                    .padding(.top, Spacing.xs)
 
-                    Spacer(minLength: Spacing.xl)
+                    Spacer(minLength: Spacing.l)
 
                     HStack(spacing: 4) {
                         Text("¿No tienes cuenta?")
@@ -68,11 +67,11 @@ struct LoginView: View {
                             .foregroundStyle(AppTheme.primary)
                             .fontWeight(.semibold)
                     }
-                    .font(.footnote)
-                    .padding(.bottom, Spacing.m)
+                    .font(Typography.callout)
+                    .padding(.bottom, Spacing.s)
                 }
                 .padding(.horizontal, Spacing.l)
-                .padding(.top, Spacing.xl)
+                .padding(.top, Spacing.l)
             }
         }
         .navigationBarHidden(true)
