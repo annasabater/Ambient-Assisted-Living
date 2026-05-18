@@ -8,6 +8,7 @@ import SwiftUI
 struct RegisterView: View {
     @EnvironmentObject private var authService: AuthService
     @EnvironmentObject private var userService: UserService
+    @Environment(\.dismiss) private var dismiss
 
     @State private var email: String = ""
     @State private var password: String = ""
@@ -35,54 +36,90 @@ struct RegisterView: View {
     }
 
     var body: some View {
-        Form {
-            Section("Cuenta") {
-                TextField("Email", text: $email)
-                    .keyboardType(.emailAddress)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled(true)
-                    .textContentType(.emailAddress)
-                if !email.isEmpty && !emailIsValid {
-                    inlineHint("Introduce un email válido.")
-                }
+        ZStack {
+            AppTheme.background.ignoresSafeArea()
 
-                SecureField("Contraseña", text: $password)
-                    .textContentType(.newPassword)
-                if !password.isEmpty && !passwordIsValid {
-                    inlineHint("La contraseña debe tener al menos 8 caracteres.")
-                }
+            ScrollView {
+                VStack(spacing: Spacing.l) {
+                    AuthHeader(
+                        icon: "person.crop.circle.badge.plus",
+                        title: "Crear cuenta",
+                        subtitle: "Empieza a cuidar a tu ser querido"
+                    )
 
-                SecureField("Confirmar contraseña", text: $confirmPassword)
-                    .textContentType(.newPassword)
-                if !confirmPassword.isEmpty && !passwordsMatch {
-                    inlineHint("Las contraseñas no coinciden.")
-                }
-            }
+                    VStack(spacing: Spacing.m) {
+                        VStack(alignment: .leading, spacing: Spacing.xs) {
+                            TextField("Nombre", text: $displayName)
+                                .brandField()
+                                .textContentType(.name)
+                            if !displayName.isEmpty && !displayNameIsValid {
+                                inlineHint("Introduce tu nombre.")
+                            }
+                        }
 
-            Section("Perfil") {
-                TextField("Nombre", text: $displayName)
-                    .textContentType(.name)
-                if !displayName.isEmpty && !displayNameIsValid {
-                    inlineHint("Introduce tu nombre.")
-                }
+                        VStack(alignment: .leading, spacing: Spacing.xs) {
+                            TextField("Email", text: $email)
+                                .brandField()
+                                .keyboardType(.emailAddress)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled(true)
+                                .textContentType(.emailAddress)
+                            if !email.isEmpty && !emailIsValid {
+                                inlineHint("Introduce un email válido.")
+                            }
+                        }
 
-                TextField("Teléfono (opcional)", text: $phone)
-                    .keyboardType(.phonePad)
-                    .textContentType(.telephoneNumber)
-            }
+                        TextField("Teléfono (opcional)", text: $phone)
+                            .brandField()
+                            .keyboardType(.phonePad)
+                            .textContentType(.telephoneNumber)
 
-            Section {
-                Button(action: submit) {
-                    HStack {
-                        if isSubmitting { ProgressView().padding(.trailing, 4) }
-                        Text("Crear cuenta")
-                            .frame(maxWidth: .infinity)
+                        VStack(alignment: .leading, spacing: Spacing.xs) {
+                            SecureField("Contraseña", text: $password)
+                                .brandField()
+                                .textContentType(.newPassword)
+                            if !password.isEmpty && !passwordIsValid {
+                                inlineHint("La contraseña debe tener al menos 8 caracteres.")
+                            }
+                        }
+
+                        VStack(alignment: .leading, spacing: Spacing.xs) {
+                            SecureField("Confirmar contraseña", text: $confirmPassword)
+                                .brandField()
+                                .textContentType(.newPassword)
+                            if !confirmPassword.isEmpty && !passwordsMatch {
+                                inlineHint("Las contraseñas no coinciden.")
+                            }
+                        }
                     }
+
+                    Button(action: submit) {
+                        if isSubmitting {
+                            ProgressView().tint(.white)
+                        } else {
+                            Text("Crear cuenta")
+                        }
+                    }
+                    .buttonStyle(PrimaryButtonStyle())
+                    .disabled(!canSubmit)
+
+                    Spacer(minLength: Spacing.xl)
+
+                    HStack(spacing: 4) {
+                        Text("¿Ya tienes cuenta?")
+                            .foregroundStyle(AppTheme.textSecondary)
+                        Button("Inicia sesión") { dismiss() }
+                            .foregroundStyle(AppTheme.primary)
+                            .fontWeight(.semibold)
+                    }
+                    .font(.footnote)
+                    .padding(.bottom, Spacing.m)
                 }
-                .disabled(!canSubmit)
+                .padding(.horizontal, Spacing.l)
+                .padding(.top, Spacing.l)
             }
         }
-        .navigationTitle("Crear cuenta")
+        .navigationBarTitleDisplayMode(.inline)
         .alert(
             "No se pudo crear la cuenta",
             isPresented: Binding(
@@ -99,8 +136,9 @@ struct RegisterView: View {
 
     private func inlineHint(_ text: String) -> some View {
         Text(text)
-            .font(.caption)
-            .foregroundStyle(.red)
+            .font(.footnote)
+            .foregroundStyle(AppTheme.danger)
+            .padding(.leading, Spacing.m)
     }
 
     private func submit() {

@@ -21,6 +21,7 @@ struct AmbientAssistedLivingApp: App {
             RootView()
                 .environmentObject(authService)
                 .environmentObject(userService)
+                .tint(AppTheme.primary)
         }
     }
 }

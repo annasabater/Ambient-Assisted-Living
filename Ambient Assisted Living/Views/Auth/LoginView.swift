@@ -18,38 +18,64 @@ struct LoginView: View {
     }
 
     var body: some View {
-        Form {
-            Section("Credenciales") {
-                TextField("Email", text: $email)
-                    .keyboardType(.emailAddress)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled(true)
-                    .textContentType(.emailAddress)
-                SecureField("Contraseña", text: $password)
-                    .textContentType(.password)
-            }
+        ZStack {
+            AppTheme.background.ignoresSafeArea()
 
-            Section {
-                Button(action: submit) {
-                    HStack {
-                        if isSubmitting { ProgressView().padding(.trailing, 4) }
-                        Text("Iniciar sesión")
-                            .frame(maxWidth: .infinity)
+            ScrollView {
+                VStack(spacing: Spacing.l) {
+                    AuthHeader(
+                        icon: "figure.2.and.child.holdinghands",
+                        title: "Ambient Assisted Living",
+                        subtitle: "Cuida a quienes más quieres"
+                    )
+
+                    VStack(spacing: Spacing.m) {
+                        TextField("Email", text: $email)
+                            .brandField()
+                            .keyboardType(.emailAddress)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                            .textContentType(.emailAddress)
+                        SecureField("Contraseña", text: $password)
+                            .brandField()
+                            .textContentType(.password)
                     }
-                }
-                .disabled(!canSubmit)
-            }
 
-            Section {
-                NavigationLink("¿No tienes cuenta? Regístrate") {
-                    RegisterView()
+                    Button(action: submit) {
+                        if isSubmitting {
+                            ProgressView().tint(.white)
+                        } else {
+                            Text("Iniciar sesión")
+                        }
+                    }
+                    .buttonStyle(PrimaryButtonStyle())
+                    .disabled(!canSubmit)
+
+                    NavigationLink {
+                        ForgotPasswordView()
+                    } label: {
+                        Text("¿Olvidaste tu contraseña?")
+                    }
+                    .buttonStyle(SecondaryButtonStyle())
+                    .font(.footnote)
+
+                    Spacer(minLength: Spacing.xl)
+
+                    HStack(spacing: 4) {
+                        Text("¿No tienes cuenta?")
+                            .foregroundStyle(AppTheme.textSecondary)
+                        NavigationLink("Regístrate") { RegisterView() }
+                            .foregroundStyle(AppTheme.primary)
+                            .fontWeight(.semibold)
+                    }
+                    .font(.footnote)
+                    .padding(.bottom, Spacing.m)
                 }
-                NavigationLink("¿Olvidaste tu contraseña?") {
-                    ForgotPasswordView()
-                }
+                .padding(.horizontal, Spacing.l)
+                .padding(.top, Spacing.xl)
             }
         }
-        .navigationTitle("Iniciar sesión")
+        .navigationBarHidden(true)
         .alert(
             "No se pudo iniciar sesión",
             isPresented: Binding(

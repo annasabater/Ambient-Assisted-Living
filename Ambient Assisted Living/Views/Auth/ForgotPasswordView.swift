@@ -7,10 +7,11 @@ import SwiftUI
 
 struct ForgotPasswordView: View {
     @EnvironmentObject private var authService: AuthService
+    @Environment(\.dismiss) private var dismiss
 
     @State private var email: String = ""
     @State private var isSubmitting: Bool = false
-    @State private var didSendEmail: Bool = false
+    @State private var sent: Bool = false
     @State private var errorMessage: String?
 
     private var canSubmit: Bool {
@@ -18,39 +19,30 @@ struct ForgotPasswordView: View {
     }
 
     var body: some View {
-        Form {
-            Section {
-                TextField("Email", text: $email)
-                    .keyboardType(.emailAddress)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled(true)
-                    .textContentType(.emailAddress)
-            } footer: {
-                Text("Te enviaremos un enlace para restablecer tu contraseña.")
-            }
+        ZStack {
+            AppTheme.background.ignoresSafeArea()
 
-            Section {
-                Button(action: submit) {
-                    HStack {
-                        if isSubmitting { ProgressView().padding(.trailing, 4) }
-                        Text("Enviar email de recuperación")
-                            .frame(maxWidth: .infinity)
+            ScrollView {
+                VStack(spacing: Spacing.l) {
+                    AuthHeader(
+                        icon: "key.fill",
+                        title: "Recuperar contraseña",
+                        subtitle: "Te enviaremos un email para restablecerla"
+                    )
+
+                    if sent {
+                        successView
+                            .transition(.opacity.combined(with: .scale))
+                    } else {
+                        formView
+                            .transition(.opacity.combined(with: .scale))
                     }
                 }
-                .disabled(!canSubmit)
-            }
-
-            if didSendEmail {
-                Section {
-                    Label(
-                        "Te hemos enviado un email para recuperar tu contraseña.",
-                        systemImage: "checkmark.circle.fill"
-                    )
-                    .foregroundStyle(.green)
-                }
+                .padding(.horizontal, Spacing.l)
+                .padding(.top, Spacing.l)
             }
         }
-        .navigationTitle("Recuperar contraseña")
+        .navigationBarTitleDisplayMode(.inline)
         .alert(
             "No se pudo enviar el email",
             isPresented: Binding(
@@ -65,16 +57,57 @@ struct ForgotPasswordView: View {
         }
     }
 
+    private var formView: some View {
+        VStack(spacing: Spacing.l) {
+            TextField("Email", text: $email)
+                .brandField()
+                .keyboardType(.emailAddress)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
+                .textContentType(.emailAddress)
+
+            Button(action: submit) {
+                if isSubmitting {
+                    ProgressView().tint(.white)
+                } else {
+                    Text("Enviar email")
+                }
+            }
+            .buttonStyle(PrimaryButtonStyle())
+            .disabled(!canSubmit)
+        }
+    }
+
+    private var successView: some View {
+        VStack(spacing: Spacing.m) {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 56))
+                .foregroundStyle(AppTheme.success)
+            Text("Email enviado")
+                .font(.title2)
+                .fontWeight(.semibold)
+            Text("Revisa tu bandeja de entrada y sigue las instrucciones")
+                .font(.body)
+                .foregroundStyle(AppTheme.textSecondary)
+                .multilineTextAlignment(.center)
+            Button("Volver al inicio") { dismiss() }
+                .buttonStyle(SecondaryButtonStyle())
+                .padding(.top, Spacing.m)
+        }
+        .padding(.horizontal, Spacing.l)
+    }
+
     private func submit() {
         Task {
             isSubmitting = true
             defer { isSubmitting = false }
-            didSendEmail = false
             do {
                 try await authService.sendPasswordReset(
                     email: email.trimmingCharacters(in: .whitespacesAndNewlines)
                 )
-                didSendEmail = true
+                withAnimation(.easeInOut) {
+                    sent = true
+                }
             } catch let error as AppError {
                 errorMessage = error.errorDescription
             } catch {
