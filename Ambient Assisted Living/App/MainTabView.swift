@@ -12,6 +12,7 @@ struct MainTabView: View {
         TabView {
             NavigationStack {
                 DashboardView()
+                    .toolbarBackground(.visible, for: .tabBar)
             }
             .tabItem {
                 Label("Inicio", systemImage: "house.fill")
@@ -19,6 +20,7 @@ struct MainTabView: View {
 
             NavigationStack {
                 MonitoringView()
+                    .toolbarBackground(.visible, for: .tabBar)
             }
             .tabItem {
                 Label("Monitorización", systemImage: "heart.text.square.fill")
@@ -26,6 +28,7 @@ struct MainTabView: View {
 
             NavigationStack {
                 ControlView()
+                    .toolbarBackground(.visible, for: .tabBar)
             }
             .tabItem {
                 Label("Control", systemImage: "lightbulb.fill")
@@ -33,6 +36,7 @@ struct MainTabView: View {
 
             NavigationStack {
                 AlertsView()
+                    .toolbarBackground(.visible, for: .tabBar)
             }
             .tabItem {
                 Label("Alertas", systemImage: "bell.fill")
@@ -41,6 +45,7 @@ struct MainTabView: View {
 
             NavigationStack {
                 SettingsView()
+                    .toolbarBackground(.visible, for: .tabBar)
             }
             .tabItem {
                 Label("Ajustes", systemImage: "gearshape.fill")
