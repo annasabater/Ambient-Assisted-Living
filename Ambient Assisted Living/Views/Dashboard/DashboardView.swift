@@ -62,6 +62,7 @@ struct DashboardView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
                 statusCard
+                environmentCard
                 metricsCard
             }
             .padding(Spacing.l)
@@ -95,6 +96,47 @@ struct DashboardView: View {
         .padding(Spacing.m)
         .background(AppTheme.surface)
         .clipShape(RoundedRectangle(cornerRadius: Radius.l, style: .continuous))
+    }
+
+    private var environmentCard: some View {
+        NavigationLink(destination: EnvironmentView()) {
+            HStack(alignment: .top, spacing: Spacing.m) {
+                VStack(alignment: .leading, spacing: Spacing.s) {
+                    Text("Ambiente del hogar")
+                        .font(Typography.footnote)
+                        .foregroundStyle(.secondary)
+
+                    HStack(spacing: Spacing.l) {
+                        dashEnvMetric(icon: "thermometer", value: "21.5°", color: AppTheme.success)
+                        dashEnvMetric(icon: "humidity.fill", value: "45%", color: AppTheme.success)
+                    }
+
+                    StatusBadge(text: "Confortable", color: AppTheme.success)
+                        .padding(.top, Spacing.xs)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(Typography.footnote)
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(Spacing.m)
+            .background(AppTheme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: Radius.l, style: .continuous))
+        }
+        .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private func dashEnvMetric(icon: String, value: String, color: Color) -> some View {
+        HStack(spacing: Spacing.xs) {
+            Image(systemName: icon)
+                .font(.system(size: 14))
+                .foregroundStyle(color)
+            Text(value)
+                .font(Typography.title)
+                .fontWeight(.semibold)
+                .foregroundStyle(.primary)
+        }
     }
 
     private var metricsCard: some View {
