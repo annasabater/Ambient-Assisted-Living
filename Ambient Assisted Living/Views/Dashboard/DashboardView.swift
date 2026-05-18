@@ -8,6 +8,23 @@ import SwiftUI
 struct DashboardView: View {
     @EnvironmentObject private var authService: AuthService
 
+    private struct Metric: Identifiable {
+        let id = UUID()
+        let label: String
+        let value: String
+        let icon: String
+        let color: Color
+    }
+
+    private var metrics: [Metric] {
+        [
+            Metric(label: "Consumo de agua", value: "2.1 L", icon: "drop.fill", color: AppTheme.primary),
+            Metric(label: "Medicación", value: "2 de 3", icon: "pills.fill", color: AppTheme.warning),
+            Metric(label: "Actividad", value: "4h 12min", icon: "figure.walk", color: AppTheme.primary),
+            Metric(label: "Caídas", value: "Sin incidentes", icon: "checkmark.shield", color: AppTheme.success)
+        ]
+    }
+
     private var displayName: String {
         let name = authService.currentUser?.displayName ?? ""
         return name.isEmpty ? (authService.currentUser?.email ?? "") : name
@@ -34,25 +51,18 @@ struct DashboardView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: Spacing.l) {
+            VStack(spacing: Spacing.m) {
                 VStack(alignment: .leading, spacing: Spacing.xs) {
                     Text(greeting)
-                        .font(.title2)
-                        .fontWeight(.semibold)
+                        .font(Typography.title)
                     Text(formattedDate)
+                        .font(Typography.footnote)
                         .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
                 statusCard
-                summaryCard
-
-                NavigationLink {
-                    EmptyView()
-                } label: {
-                    Text("Ver todos los detalles")
-                }
-                .buttonStyle(SecondaryButtonStyle())
+                metricsCard
             }
             .padding(Spacing.l)
         }
@@ -64,89 +74,66 @@ struct DashboardView: View {
         HStack {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text("Estado actual")
-                    .font(.footnote)
+                    .font(Typography.footnote)
                     .foregroundStyle(.secondary)
                 HStack(spacing: Spacing.s) {
                     Circle()
                         .fill(AppTheme.success)
-                        .frame(width: 12, height: 12)
+                        .frame(width: 10, height: 10)
                     Text("Todo en orden")
-                        .font(.title3)
-                        .fontWeight(.semibold)
+                        .font(Typography.headline)
                 }
                 Text("Última actividad detectada hace 3 minutos")
-                    .font(.footnote)
+                    .font(Typography.footnote)
                     .foregroundStyle(.secondary)
             }
             Spacer()
             Image(systemName: "checkmark.shield.fill")
-                .font(.system(size: 32))
+                .font(.system(size: 26))
                 .foregroundStyle(AppTheme.success)
         }
-        .padding(Spacing.l)
+        .padding(Spacing.m)
         .background(AppTheme.surface)
         .clipShape(RoundedRectangle(cornerRadius: Radius.l, style: .continuous))
     }
 
-    private var summaryCard: some View {
-        VStack(alignment: .leading, spacing: Spacing.m) {
-            Text("Resumen del día")
-                .font(.headline)
-
-            LazyVGrid(
-                columns: [
-                    GridItem(.flexible(), spacing: Spacing.m),
-                    GridItem(.flexible(), spacing: Spacing.m)
-                ],
-                spacing: Spacing.m
-            ) {
-                metricTile(
-                    title: "Consumo agua",
-                    value: "2.1 L",
-                    icon: "drop.fill",
-                    color: AppTheme.primary
-                )
-                metricTile(
-                    title: "Pastillas tomadas",
-                    value: "2 de 3",
-                    icon: "pills.fill",
-                    color: AppTheme.warning
-                )
-                metricTile(
-                    title: "Tiempo activo",
-                    value: "4h 12min",
-                    icon: "figure.walk",
-                    color: AppTheme.primary
-                )
-                metricTile(
-                    title: "Última caída",
-                    value: "Sin caídas",
-                    icon: "figure.fall",
-                    color: AppTheme.success
-                )
+    private var metricsCard: some View {
+        VStack(spacing: 0) {
+            ForEach(Array(metrics.enumerated()), id: \.element.id) { index, metric in
+                metricRow(metric)
+                if index < metrics.count - 1 {
+                    Divider()
+                        .padding(.leading, 34 + Spacing.m)
+                }
             }
         }
-        .padding(Spacing.l)
+        .padding(.vertical, Spacing.s)
+        .padding(.horizontal, Spacing.m)
         .background(AppTheme.surface)
         .clipShape(RoundedRectangle(cornerRadius: Radius.l, style: .continuous))
     }
 
-    private func metricTile(title: String, value: String, icon: String, color: Color) -> some View {
-        VStack(alignment: .leading, spacing: Spacing.s) {
-            Image(systemName: icon)
-                .font(.system(size: 20, weight: .semibold))
-                .foregroundStyle(color)
-            Text(value)
-                .font(.title3)
-                .fontWeight(.semibold)
-            Text(title)
-                .font(.footnote)
-                .foregroundStyle(.secondary)
+    private func metricRow(_ metric: Metric) -> some View {
+        HStack(spacing: Spacing.m) {
+            ZStack {
+                Circle()
+                    .fill(AppTheme.primaryLight)
+                    .frame(width: 34, height: 34)
+                Image(systemName: metric.icon)
+                    .font(.system(size: 14))
+                    .foregroundStyle(metric.color)
+            }
+            VStack(alignment: .leading, spacing: 2) {
+                Text(metric.label)
+                    .font(Typography.footnote)
+                    .foregroundStyle(.secondary)
+                Text(metric.value)
+                    .font(Typography.body)
+                    .fontWeight(.medium)
+            }
+            Spacer()
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Spacing.m)
-        .background(AppTheme.primaryLight)
-        .clipShape(RoundedRectangle(cornerRadius: Radius.m, style: .continuous))
+        .padding(.vertical, Spacing.xs)
     }
 }
 

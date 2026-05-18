@@ -29,26 +29,25 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section {
-                HStack(spacing: Spacing.m) {
+                HStack(spacing: Spacing.s) {
                     ZStack {
                         Circle()
                             .fill(AppTheme.primaryLight)
-                            .frame(width: 60, height: 60)
+                            .frame(width: 48, height: 48)
                         Image(systemName: "person.fill")
                             .foregroundStyle(AppTheme.primary)
-                            .font(.system(size: 24))
+                            .font(.system(size: 20))
                     }
                     VStack(alignment: .leading, spacing: Spacing.xs) {
                         Text(displayName)
-                            .font(.body)
-                            .fontWeight(.semibold)
+                            .font(Typography.headline)
                         Text(email)
-                            .font(.footnote)
+                            .font(Typography.footnote)
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
                 }
-                .padding(.vertical, Spacing.s)
+                .padding(.vertical, Spacing.xs)
             }
 
             Section("Persona monitorizada") {
@@ -99,8 +98,22 @@ struct SettingsView: View {
             }
 
             Section("Acerca de") {
-                LabeledContent("Versión", value: appVersion)
-                LabeledContent("Build", value: buildNumber)
+                HStack {
+                    Text("Versión")
+                        .font(Typography.callout)
+                    Spacer()
+                    Text(appVersion)
+                        .font(Typography.callout)
+                        .foregroundStyle(.secondary)
+                }
+                HStack {
+                    Text("Build")
+                        .font(Typography.callout)
+                    Spacer()
+                    Text(buildNumber)
+                        .font(Typography.callout)
+                        .foregroundStyle(.secondary)
+                }
             }
         }
         .navigationTitle("Ajustes")

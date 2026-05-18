@@ -53,20 +53,18 @@ struct MonitoringView: View {
                 Circle().fill(AppTheme.primaryLight)
                 Image(systemName: icon)
                     .foregroundStyle(AppTheme.primary)
-                    .font(.system(size: 18, weight: .semibold))
+                    .font(.system(size: 16, weight: .semibold))
             }
-            .frame(width: 44, height: 44)
+            .frame(width: 36, height: 36)
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(title)
-                    .font(.body)
-                    .fontWeight(.semibold)
+                    .font(Typography.body)
                 Text(subtitle)
-                    .font(.footnote)
+                    .font(Typography.footnote)
                     .foregroundStyle(.secondary)
             }
         }
-        .padding(.vertical, 4)
     }
 }
 
